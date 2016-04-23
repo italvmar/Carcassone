@@ -9,6 +9,8 @@
 	
 
 	{{>game}}
+
+	{{>points}}
 	<div id='container'>
    			<canvas id="game" width="2000" height="2000"></canvas>
    	</div>
@@ -22,4 +24,13 @@
 
 </template>
 
+<template name= "points">
 
+	<form>
+		jugador
+		<input type="text" name="Player">
+		puntos
+		<input type="text" name="Points">
+		<input type="submit" value="Add">
+	</form>	
+</template>

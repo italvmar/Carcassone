@@ -22,7 +22,7 @@ function rot(coordx, coordy,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9){
 Game = new function() {
 
   var pressed=false;
-  var boards = [];
+  
   
   
   this.countboards= function(){
@@ -311,6 +311,8 @@ Game = new function() {
       esvalida=false;      
       fichaActiva.num =  ((Math.round(Math.random()*23))+1);
       fichaActiva.rot= 0; 
+
+       Session.set("FlagTurn",1);
     }
       
          

@@ -1,8 +1,23 @@
-/*Datajugadores new Mongo.Collection('jugadores')
-DataposicionesValidas new Mongo.Collection('validas')
-DatafichaActiva  new Mongo.Collection('activa')
-DatafichasFijadas new Mongo.Collection('fijadas')*/
-/*fichasFijadas=[];
+ficha= function(num, coordx, coordy, rot, token, player) {
+      this.num = num;
+      this.coord = [coordx,coordy];
+      this.rot = rot;
+      this.token=token;
+      this.player=player
+};
+jugador= function(posicion, puntos, nombre,idPlayer,fichas){
+    this.pos=posicion;
+    this.puntos=puntos;
+    this.nombre=nombre;
+    this.idPlayer=idPlayer;
+    this.fichas=fichas;
+};
+
+rot= function(coordx, coordy,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9){
+  this.coord = [coordx,coordy];
+  this.dummyPos=[pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9];
+}
+  fichasFijadas=[];
 
  rot0 = [];
  rot1 = [];
@@ -11,7 +26,7 @@ DatafichasFijadas new Mongo.Collection('fijadas')*/
  posicionesValidas = [rot0,rot1,rot2,rot3];
  jugadores=[];
 
- varboards = [];
+ boards = [];
 
  firstinit=true;
 
@@ -54,11 +69,9 @@ DatafichasFijadas new Mongo.Collection('fijadas')*/
     jugadores.push(tempPlayer);
     var tempPlayer= new jugador(4,30777,"TR-8R",322,7);
     jugadores.push(tempPlayer);
-*/
 
-
-if (Meteor.isServer) {
-
-	/*firstinit=true;*/
-
-}
+    ResourceList = new Mongo.Collection('resources');
+    ResourceList.insert({ name: "points", value: jugadores, flag:0 });
+    ResourceList.insert({ name: "fijadas", value: fichasFijadas, flag:0 });
+    ResourceList.insert({ name: "validas", value: posicionesValidas, flag:0 });
+    //ResourceList.insert({ name: "activa", value: fichaActiva, flag:0 });
