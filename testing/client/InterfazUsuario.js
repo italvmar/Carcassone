@@ -2,10 +2,14 @@ Session.set("FlagPoints",0);
 Session.set("FlagTurn",0);
  Session.set("FlagMove",0);
 
+
+
+
  //ResourceList = new Mongo.Collection('resources');
   //ResourceList = new Mongo.Collection('resources');
 
 if (Meteor.isClient) {
+   Meteor.subscribe('resources');
 changepoints=0;
 changeTurn=0;
 Template.points.events({
