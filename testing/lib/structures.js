@@ -29,6 +29,7 @@ rot= function(coordx, coordy,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9){
  boards = [];
 
  firstinit=true;
+ 
 
  fichaActiva= new ficha(02,0,0,0,0,0);
 ///////////////////////////Meto rotaciones posibles para ir comprobando///////////
@@ -70,8 +71,5 @@ rot= function(coordx, coordy,pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9){
     var tempPlayer= new jugador(4,30777,"TR-8R",322,7);
     jugadores.push(tempPlayer);
 
-    ResourceList = new Mongo.Collection('resources');
-    ResourceList.insert({ name: "points", value: jugadores, flag:0 });
-    ResourceList.insert({ name: "fijadas", value: fichasFijadas, flag:0 });
-    ResourceList.insert({ name: "validas", value: posicionesValidas, flag:0 });
+   
     //ResourceList.insert({ name: "activa", value: fichaActiva, flag:0 });

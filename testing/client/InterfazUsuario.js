@@ -46,7 +46,25 @@ posRot = 0;
     
     //Boton que simula la llamda a StartTurn que hara la Plataforma
     'click button#StartGame': function () {
-      
+      iniciada=0;
+    
+      var checkinit = Meteor.call('getinitValue',
+      function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL RESULT "+result);
+              Session.set('initresult', result);
+              
+              
+          }
+      })
+     iniciada=Session.get('initresult');
+  
+    //iniciada= checkinit.value;
+    console.log("ha sido iniciada  "+ iniciada);
+    
+    
       initGame();
     },
     
@@ -58,35 +76,63 @@ Tracker.autorun(function(){
   if (Session.get("FlagPoints")==1){
     //Actualizar a nuestra variable local
     console.log("Entra en el autoun FLAGPONTS");
-    //ResourceList.update({ name: "points" }, { value: jugadores });
-   // 
-    ResourceList.update({_id:ResourceList.findOne({name:'points'})['_id']}, {$set:{value:jugadores}});
+
+     var checkinit = Meteor.call('insertpoints',jugadores,
+      function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL RESULT "+result);
+               Session.set("FlagPoints",0);
+              
+              
+          }
+      })
+    // iniciada=Session.get('initresult');
+   
+  /*var ID=ResourceList.findOne({name:'points'})['_id'];
+  console.log("id de points"+ ID);
+    ResourceList.update({_id:ID}, {$set:{value:jugadores}});
     console.log("PRIMER UPDATE");
      //Anotamos el cambio
      ResourceList.update({_id:ResourceList.findOne({name:'points'})['_id']}, { $inc: {flag:1} });
     //ResourceList.update({ name: "points" }, { $inc: {flag:1} });
       console.log("Segundo UPDATE");
+     */
      
-      Session.set("FlagPoints",0);
 
   }
 });
 
 Tracker.autorun(function(){
+console.log("esta entrando a dentro del tracker NOTICEPOINTS");
+  var checkPoints =Meteor.call('getpointsValue',
+     function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL CHECKPOINTS "+result);
+              Session.set('pointsresult', result);
+              
+              
+          }
+      })
+     checkPoints=Session.get('pointsresult');
   //Detectamos si hay cambio en base de datos
   console.log("Entra en el autoun NOTICEPOINTS");
-  var checkPoints =ResourceList.find({ name: "points" }).fetch();
+ // var checkPoints =ResourceList.find({ name: "points" }).fetch();
   console.log("flag "+checkPoints.flag);
   console.log("changepoints "+changepoints);
 
   if (checkPoints.flag>changepoints){
+    console.log("actualiza POINTS");
     //Actualizamos nuestro flag local
     changepoints=checkPoints.flag;
     //Actualizamos nuestra variable local
       jugadores = checkPoints.value;
-     
+  } 
 
-  }
+  
 });
 
 Tracker.autorun(function(){
