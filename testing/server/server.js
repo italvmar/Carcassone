@@ -85,7 +85,7 @@ DatafichasFijadas new Mongo.Collection('fijadas')*/
             returnvaluetemp =ResourceList.findOne({ name: "points" })/*.fetch()*/;
             pointsflag= returnvaluetemp.flag;
             console.log("returnpoints flag " +pointsflag);
-            return returnvaluetemp;
+            return returnvaluetemp.value;
 
         }
 

@@ -1,6 +1,7 @@
 Session.set("FlagPoints",0);
 Session.set("FlagTurn",0);
  Session.set("FlagMove",0);
+ Session.set("flagUpdatePoints",0);
 
 
 
@@ -9,6 +10,43 @@ Session.set("FlagTurn",0);
   //ResourceList = new Mongo.Collection('resources');
 
 if (Meteor.isClient) {
+//Ponemos un intervalo de comprobacion para actualizar nuestras variables
+//con la base de datos
+
+  setInterval(function() {
+
+   checkPoints =Meteor.call('getpointsValue',
+     function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL CHECKPOINTS "+result[0].puntos);
+              Session.set('pointsresult', result);
+              Session.set('flagUpdatePoints',1)
+              
+              
+          }
+      })
+   /*
+     checkPoints=Session.get('pointsresult');
+  //Detectamos si hay cambio en base de datos
+  console.log("Entra en el autoun NOTICEPOINTS");
+ // var checkPoints =ResourceList.find({ name: "points" }).fetch();
+ 
+  console.log("changepoints "+checkPoints[0].puntos);
+
+  //if (checkPoints.flag>changepoints){
+    
+    //Actualizamos nuestro flag local
+    //changepoints=checkPoints.flag;
+    //Actualizamos nuestra variable local
+      jugadores = checkPoints;
+      console.log("esto es lo que hay en jugadores "+jugadores[0].puntos);
+ // } 
+ */
+}, 2000);
+
+
    Meteor.subscribe('resources');
 changepoints=0;
 changeTurn=0;
@@ -105,6 +143,26 @@ Tracker.autorun(function(){
 });
 
 Tracker.autorun(function(){
+  if (Session.get("flagUpdatePoints")==1){
+    checkPoints=Session.get('pointsresult');
+    Session.set("flagUpdatePoints",0);
+  //Detectamos si hay cambio en base de datos
+  console.log("Entra en el autoun NOTICEPOINTS");
+ // var checkPoints =ResourceList.find({ name: "points" }).fetch();
+ 
+  console.log("changepoints "+checkPoints[0].puntos);
+
+  //if (checkPoints.flag>changepoints){
+    
+    //Actualizamos nuestro flag local
+    //changepoints=checkPoints.flag;
+    //Actualizamos nuestra variable local
+      jugadores = checkPoints;
+      console.log("esto es lo que hay en jugadores "+jugadores[0].puntos);
+  }
+});      
+/*
+Tracker.autorun(function(){
 console.log("esta entrando a dentro del tracker NOTICEPOINTS");
   var checkPoints =Meteor.call('getpointsValue',
      function(error, result){
@@ -134,7 +192,7 @@ console.log("esta entrando a dentro del tracker NOTICEPOINTS");
 
   
 });
-
+*/
 Tracker.autorun(function(){
   if (Session.get("FlagTurn")==1){
 
