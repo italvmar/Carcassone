@@ -61,7 +61,7 @@ DatafichasFijadas new Mongo.Collection('fijadas')*/
 
     Meteor.methods({
         'getinitValue' : function(){
-            console.log("llama a metodo getinitValue");
+            //console.log("llama a metodo getinitValue");
             returnvaluetemp =ResourceList.findOne({ name: "init" })/*.fetch()*/;
             returnvalue= returnvaluetemp.value;
             console.log("returnvalue " +returnvalue);
@@ -70,21 +70,40 @@ DatafichasFijadas new Mongo.Collection('fijadas')*/
         },
 
         'insertpoints' : function(tempjugadores){
-            console.log("ESTOS SON LOS PUNTOS de PAPTA " +tempjugadores[0].puntos);
-            console.log("llama a metodo insertpoints");
+           // console.log("ESTOS SON LOS PUNTOS de PAPTA " +tempjugadores[0].puntos);
+            //console.log("llama a metodo insertpoints");
             var ID=ResourceList.findOne({name:'points'})['_id'];
-            console.log("id de points"+ ID);
+           // console.log("id de points"+ ID);
             ResourceList.update({_id:ID}, {$set:{value:tempjugadores}});
 
             ResourceList.update({_id:ResourceList.findOne({name:'points'})['_id']}, { $inc: {flag:1} });
             return returnvalue;
 
         },
+        'insertfijadas' : function(tempfijadas){
+           // console.log("ESTOS SON LOS PUNTOS de PAPTA " +tempjugadores[0].puntos);
+            //console.log("llama a metodo insertpoints");
+            var ID=ResourceList.findOne({name:'fijadas'})['_id'];
+           // console.log("id de points"+ ID);
+            ResourceList.update({_id:ID}, {$set:{value:tempfijadas}});
+
+            ResourceList.update({_id:ResourceList.findOne({name:'fijadas'})['_id']}, { $inc: {flag:1} });
+            return returnvalue;
+
+        },
         'getpointsValue' : function(){
-            console.log("llama a metodo getpointsValue");
+            //console.log("llama a metodo getpointsValue");
             returnvaluetemp =ResourceList.findOne({ name: "points" })/*.fetch()*/;
-            pointsflag= returnvaluetemp.flag;
-            console.log("returnpoints flag " +pointsflag);
+            //pointsflag= returnvaluetemp.flag;
+            //console.log("returnpoints flag " +pointsflag);
+            return returnvaluetemp.value;
+
+        },
+        'getfijadasValue' : function(){
+            //console.log("llama a metodo getpointsValue");
+            returnvaluetemp =ResourceList.findOne({ name: "fijadas" })/*.fetch()*/;
+            //fijadasflag= returnvaluetemp.flag;
+            //console.log("returnpoints flag " +pointsflag);
             return returnvaluetemp.value;
 
         }

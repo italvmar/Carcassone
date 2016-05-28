@@ -2,7 +2,7 @@ Session.set("FlagPoints",0);
 Session.set("FlagTurn",0);
  Session.set("FlagMove",0);
  Session.set("flagUpdatePoints",0);
-
+ Session.set("flagUpdateFijadas",0);
 
 
 
@@ -22,32 +22,28 @@ if (Meteor.isClient) {
           } else {
               console.log("EL VALOR DEL CHECKPOINTS "+result[0].puntos);
               Session.set('pointsresult', result);
-              Session.set('flagUpdatePoints',1)
+              Session.set('flagUpdatePoints',1);
               
               
           }
       })
-   /*
-     checkPoints=Session.get('pointsresult');
-  //Detectamos si hay cambio en base de datos
-  console.log("Entra en el autoun NOTICEPOINTS");
- // var checkPoints =ResourceList.find({ name: "points" }).fetch();
- 
-  console.log("changepoints "+checkPoints[0].puntos);
-
-  //if (checkPoints.flag>changepoints){
-    
-    //Actualizamos nuestro flag local
-    //changepoints=checkPoints.flag;
-    //Actualizamos nuestra variable local
-      jugadores = checkPoints;
-      console.log("esto es lo que hay en jugadores "+jugadores[0].puntos);
- // } 
- */
+   checkFijadas =Meteor.call('getfijadasValue',
+     function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL CHECKPOINTS "+result[0].puntos);
+              Session.set('fijadasresult', result);
+              Session.set('flagUpdateFijadas',1);
+              
+              
+          }
+      })
+   
 }, 2000);
 
 
-   Meteor.subscribe('resources');
+Meteor.subscribe('resources');
 changepoints=0;
 changeTurn=0;
 Template.points.events({
@@ -125,19 +121,7 @@ Tracker.autorun(function(){
               
               
           }
-      })
-    // iniciada=Session.get('initresult');
-   
-  /*var ID=ResourceList.findOne({name:'points'})['_id'];
-  console.log("id de points"+ ID);
-    ResourceList.update({_id:ID}, {$set:{value:jugadores}});
-    console.log("PRIMER UPDATE");
-     //Anotamos el cambio
-     ResourceList.update({_id:ResourceList.findOne({name:'points'})['_id']}, { $inc: {flag:1} });
-    //ResourceList.update({ name: "points" }, { $inc: {flag:1} });
-      console.log("Segundo UPDATE");
-     */
-     
+      })  
 
   }
 });
@@ -151,56 +135,25 @@ Tracker.autorun(function(){
  // var checkPoints =ResourceList.find({ name: "points" }).fetch();
  
   console.log("changepoints "+checkPoints[0].puntos);
-
-  //if (checkPoints.flag>changepoints){
-    
-    //Actualizamos nuestro flag local
-    //changepoints=checkPoints.flag;
-    //Actualizamos nuestra variable local
       jugadores = checkPoints;
       console.log("esto es lo que hay en jugadores "+jugadores[0].puntos);
   }
 });      
-/*
-Tracker.autorun(function(){
-console.log("esta entrando a dentro del tracker NOTICEPOINTS");
-  var checkPoints =Meteor.call('getpointsValue',
-     function(error, result){
-          if(error){
-              console.log(error);
-          } else {
-              console.log("EL VALOR DEL CHECKPOINTS "+result);
-              Session.set('pointsresult', result);
-              
-              
-          }
-      })
-     checkPoints=Session.get('pointsresult');
-  //Detectamos si hay cambio en base de datos
-  console.log("Entra en el autoun NOTICEPOINTS");
- // var checkPoints =ResourceList.find({ name: "points" }).fetch();
-  console.log("flag "+checkPoints.flag);
-  console.log("changepoints "+changepoints);
 
-  if (checkPoints.flag>changepoints){
-    console.log("actualiza POINTS");
-    //Actualizamos nuestro flag local
-    changepoints=checkPoints.flag;
-    //Actualizamos nuestra variable local
-      jugadores = checkPoints.value;
-  } 
-
-  
-});
-*/
 Tracker.autorun(function(){
   if (Session.get("FlagTurn")==1){
 
-    ResourceList.update({_id:ResourceList.findOne({name:'fijadas'})['_id']}, {$set:{value:jugadores}});   
-    ResourceList.update({_id:ResourceList.findOne({name:'fijadas'})['_id']}, { $inc: {flag:1} });
-
-    ResourceList.update({_id:ResourceList.findOne({name:'validas'})['_id']}, {$set:{value:jugadores}});
-    ResourceList.update({_id:ResourceList.findOne({name:'validas'})['_id']}, { $inc: {flag:1} });
+    var checkinit = Meteor.call('insertfijadas',fichasFijadas,
+      function(error, result){
+          if(error){
+              console.log(error);
+          } else {
+              console.log("EL VALOR DEL RESULT "+result);
+               Session.set("FlagPoints",0);
+              
+              
+          }
+      }) 
 
       Session.set("FlagTurn",0);
 
@@ -208,21 +161,16 @@ Tracker.autorun(function(){
 });
 
 Tracker.autorun(function(){
+  if (Session.get("flagUpdateFijadas")==1){
+    checkFijadas=Session.get('fijadasresult');
+    Session.set("flagUpdateFijadas",0);
+  //Detectamos si hay cambio en base de datos
+  console.log("Entra en el autoun UPDATEFIJADAS");
   
-  var checkTurn =ResourceList.find({ name: "fijadas" }).fetch();
-  var validas =ResourceList.find({ name: "validas" }).fetch();
-  console.log("flag "+checkTurn.flag);
-  console.log("changepoints "+changeTurn);
-
-  if (checkTurn.flag>changeTurn){
-    //Actualizamos nuestro flag local
-    changeTurn=checkTurn.flag;
-    //Actualizamos nuestras variables locales
-      fichasFijadas = checkPoints.value;
-      posicionesValidas=validas.value;
-
+      fichasFijadas = checkFijadas;
+      
   }
-});
+});  
 
 Tracker.autorun(function(){
   if (Session.get("FlagMove")==1){

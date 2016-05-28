@@ -660,6 +660,7 @@ TableroFijadas= function(fichasFijadas){
 
   this.add= function(ficha){
     fichasFijadas.push(ficha);
+    Session.set('FlagTurn',1);
   }
    
 };
