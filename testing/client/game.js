@@ -207,10 +207,10 @@ startGame = function() {
 	if(firstinit){
 		console.log("inicia tableros")
 		Game.setBoard(0,new TableroFondo(fichaFondo));
-   		Game.setBoard(1,new TableroRotaciones(posicionesValidas));
-		Game.setBoard(2,new TableroFijadas(fichasFijadas));	
-		Game.setBoard(3,new TableroActiva(fichaActiva));
-		Game.setBoard(4,new TableroPuntuaciones(jugadores));
+   		Game.setBoard(1,new TableroRotaciones());
+		Game.setBoard(2,new TableroFijadas());	
+		Game.setBoard(3,new TableroActiva());
+		Game.setBoard(4,new TableroPuntuaciones());
 		firstinit=false;
 	}
 	

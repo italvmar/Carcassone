@@ -634,7 +634,7 @@ function posicionMonigote(pos){
 }
 
 //--------------------------------------------------------------------------------------------------
-TableroFijadas= function(fichasFijadas){
+TableroFijadas= function(){
 
   this.draw = function(ctx){
 
@@ -666,7 +666,7 @@ TableroFijadas= function(fichasFijadas){
 };
 
 //--------------------------------------------------------------------------------------------------
-TableroRotaciones= function (posicionesValidas){
+TableroRotaciones= function (){
 
   this.draw = function(ctx){
     for (i=0; i<posicionesValidas.length; i++){
@@ -685,7 +685,7 @@ TableroRotaciones= function (posicionesValidas){
 }
 
 //--------------------------------------------------------------------------------------------------
-TableroActiva= function(fichaActiva){
+TableroActiva= function(){
   this.draw = function(ctx){
     SpriteSheet.draw(ctx,fichaActiva.num,fichaActiva.coord[0],
         fichaActiva.coord[1]);
@@ -706,7 +706,7 @@ TableroActiva= function(fichaActiva){
 
 }
 
-TableroPuntuaciones= function(jugadores){
+TableroPuntuaciones= function(){
   this.draw = function(ctx){
     for (i = 0; i < jugadores.length; i++) {
       ctx.font = "20px Arial";
